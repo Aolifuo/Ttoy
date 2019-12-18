@@ -35,8 +35,7 @@ struct filter;
 template <typename T, T... vals>
 struct length<integral_sequence<T, vals...>>
     : std::integral_constant<T, sizeof...(vals)>
-{
-};
+{ };
 
 template <typename, bool, typename>
 struct quick_sort;
@@ -77,7 +76,7 @@ struct reverse<T, integral_sequence<T>>
     using type = integral_sequence<T>;
 };
 
-template <typename T, template <typename U, U> class Mapper, T head, T... tails> //´«½øÔªº¯Êý
+template <typename T, template <typename U, U> class Mapper, T head, T... tails> //Â´Â«Â½Ã¸Ã”ÂªÂºÂ¯ÃŠÃ½
 struct map<T, Mapper, integral_sequence<T, head, tails...>>
 {
     using type = typename push_front<T, Mapper<T, head>::value,
@@ -115,30 +114,6 @@ struct filter<T, Filter, integral_sequence<T>>
 {
     using type = integral_sequence<T>;
 };
-
-/*template <typename T, bool Label, T head, T... tails>
-struct quick_sort<T, Label, integral_sequence<T, head, tails...>>
-{
-    template <typename T, T N>
-    struct less
-    {
-        static constexpr value = (N < head);
-    };
-
-    typename<typename T, T N> struct greater
-    {
-        static constexpr value = (N >= head);
-    };
-
-    struct Compare
-    {
-        using type = std::conditional_t<Label, less, greater>;
-    };
-
-    using type = typename concat<
-        typename quick_sort<T, Label, typename filter<T, typename Compare::type, integral_sequence<T, tails...>>::type>::type,
-        typename push_front<T, head, typename quick_sort<T, !Label, typename filter<T, typename Compare::type>::type>>::type>::type;
-};*/
 
 template <typename T>
 constexpr typename T::value_type length_v = length<T>::value;
